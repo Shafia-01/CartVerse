@@ -19,15 +19,11 @@ def fetch_trending_products(query, num_results=5):
     response = requests.get(BASE_URL, params=params)
     data = response.json()
 
-    print(f"🔍 DEBUG [{query}] keys: {list(data.keys())}")
-
     results = []
     organic = data.get("organic_results", [])
     if not organic:
         print("❌ No organic results found.")
         return []
-
-    print(f"🧪 First raw item for [{query}]: {organic[0]}")  # <— Add this line to see structure
 
     for item in organic[:num_results]:
         results.append ({
