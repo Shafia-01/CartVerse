@@ -221,10 +221,10 @@ st.markdown(
 # --- Database Connection ---
 def get_db_connection():
     return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="Shafo@05",
-        database="moodcart_db"
+        host=os.getenv("MOODCART_DB_HOST", "localhost"),
+        user=os.getenv("MOODCART_DB_USER", "root"),
+        password=os.getenv("MOODCART_DB_PASSWORD", "Shafo@05"),
+        database=os.getenv("MOODCART_DB_NAME", "moodcart_db")
     )
 
 # --- Load Mood History ---
@@ -248,7 +248,7 @@ def load_mood_history(user_id="user_001"):
         return []
 
 # --- Load JSON State ---
-mood_file = Path("mood_history.json")
+mood_file = Path(__file__).parent / "mood_history.json"
 if "mood_memory" not in st.session_state:
     if mood_file.exists():
         with mood_file.open("r") as f:
@@ -300,11 +300,9 @@ def build_search_term(category, interest):
             filtered.append(word)
     return " ".join(filtered[:3])
 
-@st.cache_data(ttl=3600)
-def fetch_products(search_query):
+def _fetch_products_raw(search_query):
     if not SERPAPI_KEY:
-        st.error("SerpApi key is missing!")
-        return []
+        raise ValueError("SerpApi key is missing!")
 
     params = {
         "engine": "walmart",
@@ -315,6 +313,8 @@ def fetch_products(search_query):
 
     try:
         response = requests.get("https://serpapi.com/search", params=params, timeout=60)
+        if response.status_code == 429:
+            raise requests.exceptions.HTTPError("429 Too Many Requests", response=response)
         response.raise_for_status()
         results = response.json()
 
@@ -340,27 +340,49 @@ def fetch_products(search_query):
 
         return products
 
-    except requests.exceptions.RequestException as e:
+    except requests.exceptions.HTTPError as e:
+        if e.response is not None and e.response.status_code == 429:
+            raise e
         if "429" in str(e):
-            raise requests.exceptions.HTTPError("429 Too Many Requests")
+            raise e
+        st.error(f"Network error: {e}")
+        return []
+    except requests.exceptions.RequestException as e:
+        if e.response is not None and e.response.status_code == 429:
+            raise requests.exceptions.HTTPError("429 Too Many Requests", response=e.response)
+        if "429" in str(e):
+            raise requests.exceptions.HTTPError("429 Too Many Requests", response=e.response)
         st.error(f"Network error: {e}")
         return []
     except Exception as e:
         st.error(f"Unexpected error: {e}")
         return []
 
+@st.cache_data(ttl=3600)
+def fetch_products(search_query):
+    products = _fetch_products_raw(search_query)
+    if not products:
+        raise ValueError("No products found")
+    return products
+
 def fetch_products_with_retry(query, serpapi_key=SERPAPI_KEY, max_retries=2, delay=3):
     for attempt in range(max_retries):
         try:
             products = fetch_products(query)
-            if products:
-                return products
+            return products
         except requests.exceptions.HTTPError as e:
-            if "429" in str(e):
+            if (e.response is not None and e.response.status_code == 429) or "429" in str(e):
                 st.warning(f"Rate limit hit. Retry {attempt + 1} of {max_retries}")
                 time.sleep(delay)
             else:
-                raise e
+                return []
+        except ValueError as e:
+            if str(e) == "SerpApi key is missing!":
+                st.error("SerpApi key is missing!")
+            return []
+        except Exception as e:
+            st.error(f"Unexpected error: {e}")
+            return []
     return []
 
 # --- TABS ---
@@ -391,7 +413,7 @@ with tab1:
 
     if st.button("Get Recommendations"):
         if user_text.strip():
-            mood, initial_category, confidence = predict_mood_category(user_text)
+            mood, _, confidence = predict_mood_category(user_text)
             BASE_DIR = Path(__file__).parent.resolve()
             MOOD_MAP_PATH = BASE_DIR / "MOODCART" / "mood_map.json"
             with open(MOOD_MAP_PATH, "r") as f:
@@ -467,6 +489,19 @@ with tab1:
                         return "women's fashion"
                     else:
                         return "unisex fashion"
+                elif category == "games":
+                    return "educational games for kids" if age_group == "child" else (
+                        "party board games for teens" if age_group == "teen" else "strategy board games for adults"
+                    )
+                elif category == "boxing gloves":
+                    if age < 18:
+                        return "boxing gloves for youth"
+                    elif gender == "Female":
+                        return "boxing gloves for women"
+                    elif gender == "Male":
+                        return "boxing gloves for men"
+                    else:
+                        return "unisex boxing gloves"
                 elif category == "romantic gifts":
                     return "romantic gifts for couples" if gender != "Prefer not to say" else category
                 return category
@@ -614,6 +649,8 @@ with tab2:
         else:
             st.error("Please enter a valid search query.")
 
+    history_exists = True
+    user_data = {}
     try:
         BASE_DIR = Path(__file__).parent.resolve()
         USER_HISTORY_PATH = BASE_DIR / "AUTOCART" / "user_history.json"
@@ -621,26 +658,27 @@ with tab2:
             user_data = json.load(f)
     except FileNotFoundError:
         st.error("❌ user_history.json not found!")
-        st.stop()
+        history_exists = False
 
-    user_ids = list(user_data.keys())
-    selected_user = st.selectbox("👤 Select User", user_ids)
+    if history_exists:
+        user_ids = list(user_data.keys())
+        selected_user = st.selectbox("👤 Select User", user_ids)
 
-    if st.button("Generate Recommendations"):
-        st.subheader(f"✨ Recommended for: {selected_user}")
-        recommendations = generate_autocart(user_data[selected_user])
-        if recommendations:
-            for rec in recommendations:
-                name = rec.get('item', 'Unnamed')
-                st.markdown(f"**{name}**")
-                st.markdown(f"- Category: {rec.get('category', 'N/A')}")
-                suggested = rec.get("suggested", {})
-                title = suggested.get("title", "Unnamed Product")
-                link = suggested.get("link", "#")
-                st.markdown(f"- Recommended Product: [{title}]({link})")
-                st.markdown("---")
-        else:
-            st.info("No recommendations available.")
+        if st.button("Generate Recommendations"):
+            st.subheader(f"✨ Recommended for: {selected_user}")
+            recommendations = generate_autocart(user_data[selected_user])
+            if recommendations:
+                for rec in recommendations:
+                    name = rec.get('item', 'Unnamed')
+                    st.markdown(f"**{name}**")
+                    st.markdown(f"- Category: {rec.get('category', 'N/A')}")
+                    suggested = rec.get("suggested", {})
+                    title = suggested.get("title", "Unnamed Product")
+                    link = suggested.get("link", "#")
+                    st.markdown(f"- Recommended Product: [{title}]({link})")
+                    st.markdown("---")
+            else:
+                st.info("No recommendations available.")
 
 # --- Save Mood History ---
 if st.session_state.get("mood_memory"):
