@@ -26,9 +26,40 @@ def direct_mood_lookup(text):
     If found, return it immediately with mapped category.
     """
     text_lower = text.lower()
+    
+    # Map synonyms/variations to canonical keys in mood_map.json
+    mood_synonyms = {
+        "happy": "happiness",
+        "bored": "boredom",
+        "sad": "sadness",
+        "angry": "anger",
+        "scared": "fear",
+        "fearful": "fear",
+        "surprised": "surprise",
+        "excited": "excitement",
+        "confused": "confusion",
+        "lonely": "loneliness",
+        "frustrated": "frustration",
+        "anxious": "anxiety",
+        "hope": "hopeful",
+        "motivation": "motivated",
+        "demotivation": "demotivated",
+        "nostalgia": "nostalgic",
+        "curiosity": "curious",
+        "gratitude": "grateful",
+    }
+    
+    # 1. Check for synonyms
+    for word, canonical in mood_synonyms.items():
+        if re.search(r'\b' + re.escape(word) + r'\b', text_lower):
+            if canonical in mood_map:
+                return canonical, mood_map[canonical]
+                
+    # 2. Check for canonical keys directly
     for mood_word in mood_map.keys():
         if re.search(r'\b' + re.escape(mood_word) + r'\b', text_lower):
             return mood_word, mood_map[mood_word]
+            
     return None, None
 
 def predict_mood_category(text):

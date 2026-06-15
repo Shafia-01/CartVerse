@@ -322,5 +322,14 @@
         "interest": "Home Decor",
         "age": 21,
         "gender": "Female"
+    },
+    {
+        "timestamp": "2026-06-15 18:02:22",
+        "mood": "joy",
+        "category": "toys",
+        "adjusted_category": "collectibles or hobby kits for adults",
+        "interest": "Fashion",
+        "age": 25,
+        "gender": "Female"
     }
 ]

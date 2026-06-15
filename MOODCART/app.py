@@ -91,13 +91,14 @@ def build_search_term(category, interest):
             filtered.append(word)
     return " ".join(filtered[:3])
 
-def _fetch_products_raw(search_query):
-    if not SERPAPI_KEY:
+def _fetch_products_raw(search_query, serpapi_key=None):
+    key_to_use = serpapi_key or SERPAPI_KEY
+    if not key_to_use:
         raise ValueError("SerpApi key is missing!")
 
     params = {
         "engine": "walmart",
-        "api_key": SERPAPI_KEY,
+        "api_key": key_to_use,
         "query": search_query,
         "num": 5
     }
@@ -150,8 +151,8 @@ def _fetch_products_raw(search_query):
         return []
 
 @st.cache_data(ttl=3600)
-def fetch_products(search_query):
-    products = _fetch_products_raw(search_query)
+def fetch_products(search_query, serpapi_key=None):
+    products = _fetch_products_raw(search_query, serpapi_key=serpapi_key)
     if not products:
         raise ValueError("No products found")
     return products
@@ -159,7 +160,7 @@ def fetch_products(search_query):
 def fetch_products_with_retry(query, serpapi_key=SERPAPI_KEY, max_retries=2, delay=3):
     for attempt in range(max_retries):
         try:
-            products = fetch_products(query)
+            products = fetch_products(query, serpapi_key=serpapi_key)
             return products
         except requests.exceptions.HTTPError as e:
             if (e.response is not None and e.response.status_code == 429) or "429" in str(e):
