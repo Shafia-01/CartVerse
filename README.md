@@ -305,7 +305,6 @@ To deploy the **Walmart Innovation Suite** (Streamlit app):
 *These items represent the current backlog and developmental gaps:*
 
 - `needs_refill` is stubbed to always return `True`; add real refill logic based on recency or quantity.
-- Credentials are hardcoded in code for demo purposes; move them to `.env` in production. *(Completed in latest iteration).*
 - SerpAPI errors are surfaced in the UI; consider broader rate-limit backoff and logging.
 - Add tests around mood mapping, refill logic, and SerpAPI parsing as the logic evolves.
 
