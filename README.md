@@ -21,6 +21,7 @@
   </p>
 </div>
 
+---
 
 ## About this project: 
 **CartVerse** is a Streamlit-powered shopping assistant that personalizes Walmart product discovery in two ways:
