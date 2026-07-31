@@ -349,5 +349,23 @@
         "interest": "Fashion",
         "age": 21,
         "gender": "Female"
+    },
+    {
+        "timestamp": "2026-07-29 22:32:40",
+        "mood": "sadness",
+        "category": "books",
+        "adjusted_category": "technology learning books",
+        "interest": "Technology",
+        "age": 21,
+        "gender": "Female"
+    },
+    {
+        "timestamp": "2026-07-29 22:36:18",
+        "mood": "happiness",
+        "category": "party supplies",
+        "adjusted_category": "party supplies for technology",
+        "interest": "Technology",
+        "age": 21,
+        "gender": "Female"
     }
 ]
