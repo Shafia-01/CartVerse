@@ -23,7 +23,7 @@
 
 ---
 
-## Project Overview: 
+## 📋 Project Overview
 **CartVerse** is a Streamlit-powered shopping assistant that personalizes Walmart product discovery in two ways:
 - 🧠 **MoodCart**: Turns what you feel into product categories and recommends items that fit your mood.
 - 🤖 **AutoCart**: Mines past shopping behavior to suggest refills and trending alternatives automatically.
@@ -32,14 +32,14 @@ Both modules can run on their own or through the combined `main_app.py` experien
 
 ---
 
-## Why This Project Exists
+## 💡 Why This Project Exists
 Traditional e-commerce platforms rely heavily on search queries and generic recommendations, often ignoring a customer's current emotional state or their underlying shopping habits. This can lead to decision fatigue. **CartVerse** (via the **Walmart Innovation Suite**) aims to solve this by introducing:
 1. **Emotional Personalization**: Translating emotional states into relevant product categories.
 2. **Habit-Based Automation**: Analyzing past behavior to predict when items need replenishment, reducing cognitive load.
 
 ---
 
-## Key Features
+## ✨ Key Features
 - **Mood Detection with Fallback Chain**: Evaluates user emotions using a layered approach: direct keyword matching, a HuggingFace DistilBert classifier, and a TextBlob polarity fallback.
 - **Age/Interest/Gender-Based Category Adjustment**: Adapts product categories dynamically based on demographic heuristics (e.g., matching "toys" to "educational toys for kids" for children or "collectibles or hobby kits for adults" for adults).
 - **SerpAPI Product Search with Retry**: Queries real-time Walmart search results using SerpAPI, featuring custom rate-limit handling and automatic retries.
@@ -48,13 +48,13 @@ Traditional e-commerce platforms rely heavily on search queries and generic reco
 
 ---
 
-## Architecture
+## 🏗️ Architecture
 **CartVerse** (the **Walmart Innovation Suite**) provides three Streamlit entry points:
 1. `main_app.py` (Combined): A unified portal housing both MoodCart and AutoCart under a tabbed, Walmart-themed interface.
 2. `MOODCART/app.py` (Standalone): A standalone interface focused entirely on the mood-based discovery flow.
 3. `AUTOCART/app.py` (Standalone): A standalone interface focused entirely on past purchase history analysis and product replenishment.
 
-### Data Flow & Persistence
+### 📊 Data Flow & Persistence
 ```mermaid
 graph TD
     User([User Input]) --> MC[MoodCart App / Tab]
@@ -90,7 +90,7 @@ graph TD
 
 ---
 
-## Tech Stack
+## 🛠️ Tech Stack
 - **Streamlit (v1.33.0)**: Used as the core framework for building clean, interactive web interfaces.
 - **pandas (v2.2.1)**: Powers data manipulation, history analysis, and structure building for visualization.
 - **plotly (v5.21.0)**: Generates the interactive mood history timeline charts.
@@ -104,24 +104,24 @@ graph TD
 
 ---
 
-## Engineering Decisions
-### 1. Robust Sentiment Fallback Chain
+## ⚙️ Engineering Decisions
+### ⛓️ 1. Robust Sentiment Fallback Chain
 Due to the computational overhead and potential networking or startup issues with machine learning models, **CartVerse** implements a 3-tier fallback chain:
 1. **Direct Keyword Lookup**: Fast regex search against explicit emotions listed in `mood_map.json`.
 2. **HuggingFace Pipeline**: A pre-trained `distilbert-base-uncased-emotion` model for semantic classification.
 3. **TextBlob Polarity**: A local, rules-based sentiment calculation that infers generic joy, sadness, or neutral states if the ML pipeline fails.
 
-### 2. Contextual Category Adjustment (Demographic Heuristics)
+### 👥 2. Contextual Category Adjustment (Demographic Heuristics)
 To prevent recommending children's toys to adults or adult collectibles to kids, category outputs are modified at runtime. By evaluating age, gender, and primary interest, the backend maps generic keywords to precise subcategories (e.g., mapping `sports equipment` + `Female` to `sports gear for women`).
 
 ---
 
-## AI Components
-### Emotion Classification
+## 🧠 AI Components
+### 🏷️ Emotion Classification
 - **Model**: `bhadresh-savani/distilbert-base-uncased-emotion`
 - **Fallback**: TextBlob polarity-based categorization.
 
-### Category Mapping Table (`mood_map.json`)
+### 🗺️ Category Mapping Table (`mood_map.json`)
 The primary lookup table maps specific input emotions to initial search categories:
 
 | Detected Mood | Mapped Category | Detected Mood | Mapped Category |
@@ -142,7 +142,7 @@ The primary lookup table maps specific input emotions to initial search categori
 
 ---
 
-## Database Design
+## 🗄️ Database Design
 **CartVerse** supports optional persistent database storage for mood history logs.
 
 ```sql
@@ -163,7 +163,7 @@ If database connection environment variables are not supplied or fail to connect
 
 ---
 
-## User Flow
+## 🔄 User Flow
 ### 🧠 MoodCart Tab
 1. **Personalization Sidebar**: The user inputs their age, selects an interest (e.g., Technology, Gaming), and chooses their gender.
 2. **Text Input**: The user describes their mood (e.g., "I feel extremely tired and anxious").
@@ -185,7 +185,7 @@ If database connection environment variables are not supplied or fail to connect
 
 ---
 
-## Folder Structure
+## 📁 Folder Structure
 ```
 CartVerse/
 ├── .env.example                # Sample environment configuration file
@@ -211,7 +211,7 @@ CartVerse/
 
 ---
 
-## Installation Guide
+## 📥 Installation Guide
 1. **Clone the Repository** and navigate to the root directory.
 2. **Install Dependencies**:
    ```bash
@@ -224,7 +224,7 @@ CartVerse/
 
 ---
 
-## Environment Variables
+## 🔑 Environment Variables
 Copy `.env.example` to a new file named `.env` and fill in the values:
 
 ```ini
@@ -240,16 +240,16 @@ MOODCART_DB_NAME=your_mysql_database_name_here
 
 ---
 
-## Running The Project
+## 💻 Running The Project
 Ensure you are inside the root directory `CartVerse/`.
 
-### 1. Running the Integrated Experience (Recommended)
+### 🚀 1. Running the Integrated Experience (Recommended)
 This runs the full suite containing both tabs:
 ```bash
 streamlit run main_app.py
 ```
 
-### 2. Running Standalone Standalone Apps
+### 🖥️ 2. Running Standalone Apps
 To run the standalone components individually:
 
 - **AutoCart Standalone**:
@@ -278,7 +278,7 @@ To run the standalone components individually:
 
 ---
 
-## Deployment Guide
+## 🌐 Deployment Guide
 To deploy **CartVerse** (Streamlit app):
 1. **Environment Variables**: Configure the system variables (e.g. `SERPAPI_KEY`, `MOODCART_DB_HOST`, etc.) inside your hosting provider's Secrets configuration panel.
 2. **Database Integration**: Ensure your target MySQL database is reachable by your hosting environment, or rely entirely on the automatic local file (`mood_history.json`) fallback.
@@ -286,9 +286,9 @@ To deploy **CartVerse** (Streamlit app):
 
 ---
 
-## Screenshots
+## 📸 Screenshots
 
-<h3 align="center">1. MoodCart Tab</h3>
+<h3 align="center">🧠 1. MoodCart Tab</h3>
 <p align="center"><i>The MoodCart dashboard allows users to input their profile details and describe their current feelings to receive tailored Walmart product recommendations.</i></p>
 <p align="center">
   <img src="assets/FeelCart%20(1).png" alt="MoodCart Interface & Input Panel" width="49%" />
@@ -297,7 +297,7 @@ To deploy **CartVerse** (Streamlit app):
 
 <br>
 
-<h3 align="center">2. Mood Timeline Chart</h3>
+<h3 align="center">📈 2. Mood Timeline Chart</h3>
 <p align="center"><i>An interactive analytics section displaying emotional history trends and categories using Plotly visualization charts.</i></p>
 <p align="center">
   <img src="assets/FeelCart%20(6).png" alt="Interactive Mood History Timeline" width="80%" />
@@ -305,7 +305,7 @@ To deploy **CartVerse** (Streamlit app):
 
 <br>
 
-<h3 align="center">3. AutoCart Tab</h3>
+<h3 align="center">🤖 3. AutoCart Tab</h3>
 <p align="center"><i>An automated cart replenishment dashboard analyzing past purchase history and suggesting recurring items for quick checkout.</i></p>
 <p align="center">
   <img src="assets/FeelCart%20(5).png" alt="AutoCart User & History Selector" width="32%" />
@@ -315,21 +315,21 @@ To deploy **CartVerse** (Streamlit app):
 
 ---
 
-## Performance Considerations
+## ⚡ Performance Considerations
 - **API Caching**: All product lookups are cached locally using Streamlit's `@st.cache_data(ttl=3600)` decorator to save API quota and accelerate repeat queries.
 - **SerpAPI Retry Handling**: To handle API rate limits, the request client uses retry loops (`fetch_products_with_retry`) backstaged by delay buffers when encountering `429 Too Many Requests` responses.
 - **Lazy Model Loading**: The ML pipeline classifier is loaded lazily via a module-level singleton (`get_emotion_classifier()`) to ensure fast application startup times.
 
 ---
 
-## Security Considerations
+## 🛡️ Security Considerations
 - **Secure Credentials**: All authorization keys and database parameters have been removed from the source code and are managed exclusively via environment variables loaded by `python-dotenv`.
 - **Git Protection**: The local `.env` configuration file is gitignored to prevent credentials from leaking into public code repositories.
 - **Safe SerpAPI Client**: All search inputs are normalized and escaped before transmission to SerpAPI.
 
 ---
 
-## Challenges Solved
+## 🧩 Challenges Solved
 - **Rate-Limit Resilience**: Solved random connection drops and rate limits in SerpAPI calls through structured retry routines and memory caching.
 - **Model Size vs. Performance**: Leveraged a multi-tiered fallback architecture to bypass loading heavy machine-learning classifiers if environment resources are constrained.
 - **Unified Pathing**: Handled nested import and resource-path issues across standalone and integrated entry points using absolute parent path resolvers (`Path(__file__).parent`).
