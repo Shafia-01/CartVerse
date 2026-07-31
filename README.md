@@ -1,18 +1,23 @@
+<h1 align="center">CartVerse</h1>
+<p align="center">Walmart Innovation Suite: AI-Powered Personalized Shopping Experience</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.9+-blue.svg?style=flat&logo=python&logoColor=white" alt="Python 3.9+">
+  <img src="https://img.shields.io/badge/Streamlit-%23FF4B4B.svg?style=flat&logo=streamlit&logoColor=white" alt="Streamlit">
+  <img src="https://img.shields.io/badge/pandas-%23150458.svg?style=flat&logo=pandas&logoColor=white" alt="Pandas">
+  <img src="https://img.shields.io/badge/Plotly-%233F4F75.svg?style=flat&logo=plotly&logoColor=white" alt="Plotly">
+  <img src="https://img.shields.io/badge/Hugging%20Face-%23FFD21E.svg?style=flat&logo=huggingface&logoColor=white" alt="Hugging Face">
+  <img src="https://img.shields.io/badge/MySQL-%2300f.svg?style=flat&logo=mysql&logoColor=white" alt="MySQL">
+</p>
+
 <div align="center">
-
-# CartVerse
-## *Walmart Innovation Suite*
-
-[![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)](https://www.python.org/)
-[![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=Streamlit&logoColor=white)](https://streamlit.io/)
-[![Pandas](https://img.shields.io/badge/pandas-%23150458.svg?style=for-the-badge&logo=pandas&logoColor=white)](https://pandas.pydata.org/)
-[![Plotly](https://img.shields.io/badge/Plotly-%233F4F75.svg?style=for-the-badge&logo=plotly&logoColor=white)](https://plotly.com/)
-[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-FFD21E?style=for-the-badge)](https://huggingface.co/)
-[![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
-
-An advanced retail prototype built for **Walmart Sparkathon 2025** (Walmart's annual hackathon). It showcases next-generation personalized shopping experiences.
-
+  <h3>🔗 <a href="https://cartverse.streamlit.app/">CartVerse - Shopping that Understands You</a></h3>
+  <h3><a href="https://youtu.be/K6MSzLlotrs"><img src="https://img.shields.io/badge/YouTube-Demo%20Video-red?style=flat-square&logo=youtube&logoColor=white" alt="YouTube Demo Video"></a></h3>
+  <p>
+    <i>An advanced retail prototype built for Walmart Sparkathon 2025 showcasing next-generation personalized shopping experiences. Deployed on Streamlit Community Cloud, this live web interface provides an interactive workspace featuring MoodCart for emotional product discovery using Hugging Face sentiment classifiers, and AutoCart for habit-based cart replenishment driven by historical purchase analysis.</i>
+  </p>
 </div>
+
 
 ## About this project: 
 **CartVerse** is a Streamlit-powered shopping assistant that personalizes Walmart product discovery in two ways:
@@ -278,17 +283,24 @@ To deploy **CartVerse** (Streamlit app):
 ---
 
 ## Screenshots
-### MoodCart Tab
-![Moodcart tab](assets/FeelCart%20(1).png)
-![Moodcart results](assets/FeelCart%20(2).png)
 
-### Mood Timeline Chart
-![Mood Timeline Chart](assets/FeelCart%20(6).png)
+<h3 align="center">MoodCart Tab</h3>
+<p align="center">
+  <img src="assets/FeelCart%20(1).png" width="49%" alt="MoodCart Tab">
+  <img src="assets/FeelCart%20(2).png" width="49%" alt="MoodCart Results">
+</p>
 
-### AutoCart Tab
-![AutoCart Tab](assets/FeelCart%20(5).png)
-![AutoCart results](assets/FeelCart%20(3).png)
-![AutoCart](assets/FeelCart%20(4).png)
+<h3 align="center">Mood Timeline Chart</h3>
+<p align="center">
+  <img src="assets/FeelCart%20(6).png" width="80%" alt="Mood Timeline Chart">
+</p>
+
+<h3 align="center">AutoCart Tab</h3>
+<p align="center">
+  <img src="assets/FeelCart%20(5).png" width="32%" alt="AutoCart Tab">
+  <img src="assets/FeelCart%20(3).png" width="32%" alt="AutoCart Results">
+  <img src="assets/FeelCart%20(4).png" width="32%" alt="AutoCart Summary">
+</p>
 
 ---
 
@@ -313,28 +325,6 @@ To deploy **CartVerse** (Streamlit app):
 
 ---
 
-## Future Scope
-*These items represent the current backlog and developmental gaps:*
-
-- `needs_refill` is stubbed to always return `True`; add real refill logic based on recency or quantity.
-- SerpAPI errors are surfaced in the UI; consider broader rate-limit backoff and logging.
-- Add tests around mood mapping, refill logic, and SerpAPI parsing as the logic evolves.
-
----
-
-## Lessons Learned
-- **Multi-tiered redundancy is key**: Developing local lexicon-based checks alongside transformer models ensures high application availability and minimizes API dependency.
-- **Path structure awareness**: Building relative directories based on `Path(__file__)` rather than OS-dependent string concatenation prevents execution errors across different environments.
-
----
-
-## Resume Highlights
-- **Prototype Scale**: Developed a modular e-commerce personalizer featuring three runtime entry points, complex demographic filtering, and dual-layer local/database persistence.
-- **Machine Learning Integration**: Designed and deployed a multi-stage classification pipeline running HuggingFace DistilBert transformers with TextBlob lexicon-based fallbacks.
-- **API and Database Architecture**: Structured external data querying via SerpAPI with custom rate-limiting retry policies, combined with an optional relational MySQL database logger.
-
----
-
 ## Contribution Guidelines
 If you would like to contribute:
 1. **Fork** the repository.
@@ -342,8 +332,3 @@ If you would like to contribute:
 3. Commit your changes (`git commit -m 'Add NewFeature'`).
 4. **Push** to the branch (`git push origin feature/NewFeature`).
 5. Open a **Pull Request**.
-
----
-
-## License
-This project is licensed under the MIT License - see the LICENSE file for details.
