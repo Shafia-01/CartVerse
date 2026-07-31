@@ -11,7 +11,6 @@
 </p>
 
 <div align="center">
-  <h3>🔗 <a href="https://cartverse.streamlit.app/">CartVerse - Shopping that Understands You</a></h3>
   <h3><a href="https://youtu.be/K6MSzLlotrs"><img src="https://img.shields.io/badge/YouTube-Demo%20Video-red?style=flat-square&logo=youtube&logoColor=white" alt="YouTube Demo Video"></a></h3>
   <p>
     <i>An advanced retail prototype built for Walmart Sparkathon 2025 showcasing next-generation personalized shopping experiences. Deployed on Streamlit Community Cloud, this live web interface provides an interactive workspace featuring MoodCart for emotional product discovery using Hugging Face sentiment classifiers, and AutoCart for habit-based cart replenishment driven by historical purchase analysis.</i>
@@ -284,22 +283,29 @@ To deploy **CartVerse** (Streamlit app):
 
 ## Screenshots
 
-<h3 align="center">MoodCart Tab</h3>
+<h3 align="center">1. MoodCart Tab</h3>
+<p align="center"><i>The MoodCart dashboard allows users to input their profile details and describe their current feelings to receive tailored Walmart product recommendations.</i></p>
 <p align="center">
-  <img src="assets/FeelCart%20(1).png" width="49%" alt="MoodCart Tab">
-  <img src="assets/FeelCart%20(2).png" width="49%" alt="MoodCart Results">
+  <img src="assets/FeelCart%20(1).png" alt="MoodCart Interface & Input Panel" width="49%" />
+  <img src="assets/FeelCart%20(2).png" alt="Emotion-Based Product Recommendations" width="49%" />
 </p>
 
-<h3 align="center">Mood Timeline Chart</h3>
+<br>
+
+<h3 align="center">2. Mood Timeline Chart</h3>
+<p align="center"><i>An interactive analytics section displaying emotional history trends and categories using Plotly visualization charts.</i></p>
 <p align="center">
-  <img src="assets/FeelCart%20(6).png" width="80%" alt="Mood Timeline Chart">
+  <img src="assets/FeelCart%20(6).png" alt="Interactive Mood History Timeline" width="80%" />
 </p>
 
-<h3 align="center">AutoCart Tab</h3>
+<br>
+
+<h3 align="center">3. AutoCart Tab</h3>
+<p align="center"><i>An automated cart replenishment dashboard analyzing past purchase history and suggesting recurring items for quick checkout.</i></p>
 <p align="center">
-  <img src="assets/FeelCart%20(5).png" width="32%" alt="AutoCart Tab">
-  <img src="assets/FeelCart%20(3).png" width="32%" alt="AutoCart Results">
-  <img src="assets/FeelCart%20(4).png" width="32%" alt="AutoCart Summary">
+  <img src="assets/FeelCart%20(5).png" alt="AutoCart User & History Selector" width="32%" />
+  <img src="assets/FeelCart%20(3).png" alt="Frequency-Based Replenishment Recommendations" width="32%" />
+  <img src="assets/FeelCart%20(4).png" alt="Purchase History Analytics Summary" width="32%" />
 </p>
 
 ---
@@ -323,12 +329,3 @@ To deploy **CartVerse** (Streamlit app):
 - **Model Size vs. Performance**: Leveraged a multi-tiered fallback architecture to bypass loading heavy machine-learning classifiers if environment resources are constrained.
 - **Unified Pathing**: Handled nested import and resource-path issues across standalone and integrated entry points using absolute parent path resolvers (`Path(__file__).parent`).
 
----
-
-## Contribution Guidelines
-If you would like to contribute:
-1. **Fork** the repository.
-2. Create a new **feature branch** (`git checkout -b feature/NewFeature`).
-3. Commit your changes (`git commit -m 'Add NewFeature'`).
-4. **Push** to the branch (`git push origin feature/NewFeature`).
-5. Open a **Pull Request**.
