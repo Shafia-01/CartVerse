@@ -23,7 +23,7 @@
 
 ---
 
-## About this project: 
+## Project Overview: 
 **CartVerse** is a Streamlit-powered shopping assistant that personalizes Walmart product discovery in two ways:
 - 🧠 **MoodCart**: Turns what you feel into product categories and recommends items that fit your mood.
 - 🤖 **AutoCart**: Mines past shopping behavior to suggest refills and trending alternatives automatically.
