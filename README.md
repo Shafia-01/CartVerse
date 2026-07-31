@@ -54,7 +54,7 @@ Traditional e-commerce platforms rely heavily on search queries and generic reco
 2. `MOODCART/app.py` (Standalone): A standalone interface focused entirely on the mood-based discovery flow.
 3. `AUTOCART/app.py` (Standalone): A standalone interface focused entirely on past purchase history analysis and product replenishment.
 
-### 📊 Data Flow & Persistence
+### Data Flow & Persistence
 ```mermaid
 graph TD
     User([User Input]) --> MC[MoodCart App / Tab]
@@ -105,23 +105,23 @@ graph TD
 ---
 
 ## ⚙️ Engineering Decisions
-### ⛓️ 1. Robust Sentiment Fallback Chain
+### 1. Robust Sentiment Fallback Chain
 Due to the computational overhead and potential networking or startup issues with machine learning models, **CartVerse** implements a 3-tier fallback chain:
 1. **Direct Keyword Lookup**: Fast regex search against explicit emotions listed in `mood_map.json`.
 2. **HuggingFace Pipeline**: A pre-trained `distilbert-base-uncased-emotion` model for semantic classification.
 3. **TextBlob Polarity**: A local, rules-based sentiment calculation that infers generic joy, sadness, or neutral states if the ML pipeline fails.
 
-### 👥 2. Contextual Category Adjustment (Demographic Heuristics)
+### 2. Contextual Category Adjustment (Demographic Heuristics)
 To prevent recommending children's toys to adults or adult collectibles to kids, category outputs are modified at runtime. By evaluating age, gender, and primary interest, the backend maps generic keywords to precise subcategories (e.g., mapping `sports equipment` + `Female` to `sports gear for women`).
 
 ---
 
 ## 🧠 AI Components
-### 🏷️ Emotion Classification
+### Emotion Classification
 - **Model**: `bhadresh-savani/distilbert-base-uncased-emotion`
 - **Fallback**: TextBlob polarity-based categorization.
 
-### 🗺️ Category Mapping Table (`mood_map.json`)
+### Category Mapping Table (`mood_map.json`)
 The primary lookup table maps specific input emotions to initial search categories:
 
 | Detected Mood | Mapped Category | Detected Mood | Mapped Category |
@@ -164,7 +164,7 @@ If database connection environment variables are not supplied or fail to connect
 ---
 
 ## 🔄 User Flow
-### 🧠 MoodCart Tab
+### MoodCart Tab
 1. **Personalization Sidebar**: The user inputs their age, selects an interest (e.g., Technology, Gaming), and chooses their gender.
 2. **Text Input**: The user describes their mood (e.g., "I feel extremely tired and anxious").
 3. **Recommendation Generation**: Upon clicking "Get Recommendations":
@@ -174,7 +174,7 @@ If database connection environment variables are not supplied or fail to connect
 4. **Insights & Timeline**: The user can open expanders to view past records and inspect their Plotly mood history chart.
 5. **Product Display**: Up to 5 matching products are loaded and displayed in a two-column grid.
 
-### 🤖 AutoCart Tab
+### AutoCart Tab
 1. **Product Search**: A manual search input bar allows direct query searches on Walmart.
 2. **User Selector**: A dropdown lets the operator select one of the mock users (e.g., `user_1` to `user_10`) defined in `user_history.json`.
 3. **Generate Recommendations**: Upon activation:
@@ -243,13 +243,13 @@ MOODCART_DB_NAME=your_mysql_database_name_here
 ## 💻 Running The Project
 Ensure you are inside the root directory `CartVerse/`.
 
-### 🚀 1. Running the Integrated Experience (Recommended)
+### 1. Running the Integrated Experience (Recommended)
 This runs the full suite containing both tabs:
 ```bash
 streamlit run main_app.py
 ```
 
-### 🖥️ 2. Running Standalone Apps
+### 2. Running Standalone Apps
 To run the standalone components individually:
 
 - **AutoCart Standalone**:
@@ -288,7 +288,7 @@ To deploy **CartVerse** (Streamlit app):
 
 ## 📸 Screenshots
 
-<h3 align="center">🧠 1. MoodCart Tab</h3>
+<h3 align="center">1. MoodCart Tab</h3>
 <p align="center"><i>The MoodCart dashboard allows users to input their profile details and describe their current feelings to receive tailored Walmart product recommendations.</i></p>
 <p align="center">
   <img src="assets/FeelCart%20(1).png" alt="MoodCart Interface & Input Panel" width="49%" />
@@ -297,7 +297,7 @@ To deploy **CartVerse** (Streamlit app):
 
 <br>
 
-<h3 align="center">📈 2. Mood Timeline Chart</h3>
+<h3 align="center">2. Mood Timeline Chart</h3>
 <p align="center"><i>An interactive analytics section displaying emotional history trends and categories using Plotly visualization charts.</i></p>
 <p align="center">
   <img src="assets/FeelCart%20(6).png" alt="Interactive Mood History Timeline" width="80%" />
@@ -305,7 +305,7 @@ To deploy **CartVerse** (Streamlit app):
 
 <br>
 
-<h3 align="center">🤖 3. AutoCart Tab</h3>
+<h3 align="center">3. AutoCart Tab</h3>
 <p align="center"><i>An automated cart replenishment dashboard analyzing past purchase history and suggesting recurring items for quick checkout.</i></p>
 <p align="center">
   <img src="assets/FeelCart%20(5).png" alt="AutoCart User & History Selector" width="32%" />
