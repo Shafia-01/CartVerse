@@ -11,9 +11,13 @@
 </p>
 
 <div align="center">
-  <h3><a href="https://youtu.be/K6MSzLlotrs"><img src="https://img.shields.io/badge/YouTube-Demo%20Video-red?style=flat-square&logo=youtube&logoColor=white" alt="YouTube Demo Video"></a></h3>
   <p>
     <i>An advanced retail prototype built for Walmart Sparkathon 2025 showcasing next-generation personalized shopping experiences. Deployed on Streamlit Community Cloud, this live web interface provides an interactive workspace featuring MoodCart for emotional product discovery using Hugging Face sentiment classifiers, and AutoCart for habit-based cart replenishment driven by historical purchase analysis.</i>
+  </p>
+
+  <h3><a href="https://youtu.be/K6MSzLlotrs"><img src="https://img.shields.io/badge/YouTube-Demo%20Video-red?style=flat-square&logo=youtube&logoColor=white" alt="YouTube Demo Video"></a></h3> 
+  <p>
+    The demo link above features a video walkthrough demonstrating CartVerse's personalized shopping features, including emotional product recommendations (MoodCart) using Hugging Face sentiment classifiers, habit-based cart replenishment (AutoCart) driven by historical purchase analysis, and the interactive Streamlit dashboard.
   </p>
 </div>
 
